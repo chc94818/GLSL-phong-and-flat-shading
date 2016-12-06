@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	glutCreateWindow("OpenGL HW3 - student_id");
+	glutCreateWindow("OpenGL HW3 - 0556101");
 	glutReshapeWindow(512, 512);
 
 	glewInit();
@@ -89,7 +89,7 @@ void phongShading() {
 	glBufferData(GL_ARRAY_BUFFER, vertAppleSize * sizeof(float), vertApple, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);//存到第0個位置
 	glVertexAttribPointer(0/*存到第0個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	//-------------------------------------------------------------------------------------
 	//取apple貼圖點-------------------------------------------------------------------------------------
 	int texAppleTri;//三角形序號
@@ -137,7 +137,7 @@ void phongShading() {
 	glBufferData(GL_ARRAY_BUFFER, norAppleSize * sizeof(float), norApple, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(2);//存到第2個位置
 	glVertexAttribPointer(2/*存到第2個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 2);
 	//-------------------------------------------------------------------------------------
 	//取stem點-------------------------------------------------------------------------------------
 	int vertStemTri;//三角形序號
@@ -160,7 +160,7 @@ void phongShading() {
 	glBufferData(GL_ARRAY_BUFFER, vertStemSize * sizeof(float), vertStem, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(3);//存到第3個位置
 	glVertexAttribPointer(3/*存到第3個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 3);
 	//-------------------------------------------------------------------------------------
 	//取stem貼圖點-------------------------------------------------------------------------------------
 	int texStemTri;//三角形序號
@@ -182,7 +182,7 @@ void phongShading() {
 	glBufferData(GL_ARRAY_BUFFER, texStemSize * sizeof(float), texStem, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(4);//存到第4個位置
 	glVertexAttribPointer(4/*存到第4個位置*/, 2, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 4);
 	//-------------------------------------------------------------------------------------
 
 	//取stem點法向量-------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ void phongShading() {
 	glBufferData(GL_ARRAY_BUFFER, norStemSize * sizeof(float), norStem, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(5);//存到第5個位置
 	glVertexAttribPointer(5/*存到第5個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 5);
 	//-------------------------------------------------------------------------------------
 
 }
@@ -248,7 +248,7 @@ void flatShading() {
 	glBufferData(GL_ARRAY_BUFFER, vertAppleSize * sizeof(float), vertApple, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);//存到第0個位置
 	glVertexAttribPointer(0/*存到第0個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	//-------------------------------------------------------------------------------------
 	//取apple貼圖點-------------------------------------------------------------------------------------
 	int texAppleTri;//三角形序號
@@ -294,7 +294,7 @@ void flatShading() {
 	glBufferData(GL_ARRAY_BUFFER, vertStemSize * sizeof(float), vertStem, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(3);//存到第3個位置
 	glVertexAttribPointer(3/*存到第3個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 3);
 	//-------------------------------------------------------------------------------------
 	//取stem貼圖點-------------------------------------------------------------------------------------
 	int texStemTri;//三角形序號
@@ -316,7 +316,7 @@ void flatShading() {
 	glBufferData(GL_ARRAY_BUFFER, texStemSize * sizeof(float), texStem, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(4);//存到第4個位置
 	glVertexAttribPointer(4/*存到第4個位置*/, 2, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 4);
 	//-------------------------------------------------------------------------------------
 
 	
