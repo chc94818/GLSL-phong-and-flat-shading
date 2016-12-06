@@ -22,5 +22,7 @@ void main() {
 	vec3 l = normalize(light-pos);
 	vec3 e = normalize(vector-pos);
 	vec3 gamma = normalize(-reflect(l,norm));
-	outColor = ka + kd * max(dot(l,norm),0) + ks * pow(max(dot(e,gamma),0),alpha);
+	float lambertian = max(dot(l,norm), 0.0);
+    float specular = pow(max(dot(e,gamma), 0.0), alpha);
+ 	outColor = ka + kd *lambertian + ks * specular;
 }

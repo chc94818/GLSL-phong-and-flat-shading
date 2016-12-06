@@ -29,7 +29,7 @@ GLfloat mtx[16], mtx2[16], mtx3[16], mtx4[16];
 GLuint tex, tex1;
 GLint loc, loc1, loc2, loc3, loc4, loc5;
 
-bool shadingType = false;
+bool shadingType = true;
 
 int main(int argc, char *argv[])
 {
@@ -114,7 +114,32 @@ void phongShading() {
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
 
 	//-------------------------------------------------------------------------------------
-	//取apple stem點-------------------------------------------------------------------------------------
+
+	//取apple點法向量-------------------------------------------------------------------------------------
+	int norAppleTri;//三角形序號
+	int norAppleSize = XiaoPingGuo->groups->next->numtriangles * 9;//三個三維點 3*3 = 9
+	float *norApple = new float[norAppleSize];//儲存三角形點位置
+	for (int i = 0, step = 0; i < XiaoPingGuo->groups->next->numtriangles; i++)
+	{
+		norAppleTri = XiaoPingGuo->groups->next->triangles[i];//取出三角形序號
+															  //依序取得三個點位置
+		for (int j = 0; j < 3; j++)
+		{
+			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3];
+			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3 + 1];
+			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3 + 2];
+
+		}
+	}
+	//VBO 存入 ATTRIBUTE
+	glGenBuffers(1, &vboApppleNorVertex);
+	glBindBuffer(GL_ARRAY_BUFFER, vboApppleNorVertex);
+	glBufferData(GL_ARRAY_BUFFER, norAppleSize * sizeof(float), norApple, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2);//存到第2個位置
+	glVertexAttribPointer(2/*存到第2個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
+	glBindBuffer(GL_ARRAY_BUFFER, 1);
+	//-------------------------------------------------------------------------------------
+	//取stem點-------------------------------------------------------------------------------------
 	int vertStemTri;//三角形序號
 	int vertStemSize = XiaoPingGuo->groups->numtriangles * 9;//三個三維點 3*3 = 9
 	float *vertStem = new float[vertStemSize];//儲存三角形點位置
@@ -137,7 +162,7 @@ void phongShading() {
 	glVertexAttribPointer(3/*存到第3個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
 	//-------------------------------------------------------------------------------------
-	//取apple stem貼圖點-------------------------------------------------------------------------------------
+	//取stem貼圖點-------------------------------------------------------------------------------------
 	int texStemTri;//三角形序號
 	int texStemSize = XiaoPingGuo->groups->numtriangles * 6;//兩個三維點 2*3 = 6
 	float *texStem = new float[texStemSize];//儲存三角形點位置
@@ -160,31 +185,7 @@ void phongShading() {
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
 	//-------------------------------------------------------------------------------------
 
-	//取apple點法向量
-	int norAppleTri;//三角形序號
-	int norAppleSize = XiaoPingGuo->groups->next->numtriangles * 9;//三個三維點 3*3 = 9
-	float *norApple = new float[norAppleSize];//儲存三角形點位置
-	for (int i = 0,step = 0; i < XiaoPingGuo->groups->next->numtriangles; i++)
-	{
-		norAppleTri = XiaoPingGuo->groups->next->triangles[i];//取出三角形序號
-		//依序取得三個點位置
-		for (int j = 0; j < 3; j++)
-		{
-			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3];
-			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3 + 1];
-			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3 + 2];
-			
-		}
-	}
-	//VBO 存入 ATTRIBUTE
-	glGenBuffers(1, &vboApppleNorVertex);
-	glBindBuffer(GL_ARRAY_BUFFER, vboApppleNorVertex);
-	glBufferData(GL_ARRAY_BUFFER, norAppleSize * sizeof(float), norApple, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(2);//存到第2個位置
-	glVertexAttribPointer(2/*存到第2個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
-
-	//取apple stem點法向量
+	//取stem點法向量-------------------------------------------------------------------------------------
 	int norStemTri;//三角形序號
 	int norStemSize = XiaoPingGuo->groups->numtriangles * 9;//三個三維點 3*3 = 9
 	float *norStem = new float[norStemSize];//儲存三角形點位置
@@ -207,7 +208,7 @@ void phongShading() {
 	glEnableVertexAttribArray(5);//存到第5個位置
 	glVertexAttribPointer(5/*存到第5個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
-
+	//-------------------------------------------------------------------------------------
 
 }
 
@@ -272,7 +273,7 @@ void flatShading() {
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
 
 	//-------------------------------------------------------------------------------------
-	//取apple stem點-------------------------------------------------------------------------------------
+	//取stem點-------------------------------------------------------------------------------------
 	int vertStemTri;//三角形序號
 	int vertStemSize = XiaoPingGuo->groups->numtriangles * 9;//三個三維點 3*3 = 9
 	float *vertStem = new float[vertStemSize];//儲存三角形點位置
@@ -295,7 +296,7 @@ void flatShading() {
 	glVertexAttribPointer(3/*存到第3個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
 	//-------------------------------------------------------------------------------------
-	//取apple stem貼圖點-------------------------------------------------------------------------------------
+	//取stem貼圖點-------------------------------------------------------------------------------------
 	int texStemTri;//三角形序號
 	int texStemSize = XiaoPingGuo->groups->numtriangles * 6;//兩個三維點 2*3 = 6
 	float *texStem = new float[texStemSize];//儲存三角形點位置
@@ -318,54 +319,7 @@ void flatShading() {
 	glBindBuffer(GL_ARRAY_BUFFER, 1);
 	//-------------------------------------------------------------------------------------
 
-	//取apple點法向量
-	int norAppleTri;//三角形序號
-	int norAppleSize = XiaoPingGuo->groups->next->numtriangles * 9;//三個三維點 3*3 = 9
-	float *norApple = new float[norAppleSize];//儲存三角形點位置
-	for (int i = 0, step = 0; i < XiaoPingGuo->groups->next->numtriangles; i++)
-	{
-		norAppleTri = XiaoPingGuo->groups->next->triangles[i];//取出三角形序號
-															  //依序取得三個點位置
-		for (int j = 0; j < 3; j++)
-		{
-			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3];
-			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3 + 1];
-			norApple[step++] = XiaoPingGuo->normals[XiaoPingGuo->triangles[norAppleTri].nindices[j] * 3 + 2];
-
-		}
-	}
-	//VBO 存入 ATTRIBUTE
-	glGenBuffers(1, &vboApppleNorVertex);
-	glBindBuffer(GL_ARRAY_BUFFER, vboApppleNorVertex);
-	glBufferData(GL_ARRAY_BUFFER, norAppleSize * sizeof(float), norApple, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(2);//存到第2個位置
-	glVertexAttribPointer(2/*存到第2個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
-
-	//取apple stem點法向量
-	int norStemTri;//三角形序號
-	int norStemSize = XiaoPingGuo->groups->numtriangles * 9;//三個三維點 3*3 = 9
-	float *norStem = new float[norStemSize];//儲存三角形點位置
-	for (int i = 0, step = 0; i < XiaoPingGuo->groups->numtriangles; i++)
-	{
-		norStemTri = XiaoPingGuo->groups->triangles[i];//取出三角形序號
-													   //依序取得三個點位置
-		for (int j = 0; j < 3; j++)
-		{
-			norStem[step++] = XiaoPingGuo->vertices[XiaoPingGuo->triangles[norStemTri].vindices[j] * 3];
-			norStem[step++] = XiaoPingGuo->vertices[XiaoPingGuo->triangles[norStemTri].vindices[j] * 3 + 1];
-			norStem[step++] = XiaoPingGuo->vertices[XiaoPingGuo->triangles[norStemTri].vindices[j] * 3 + 2];
-
-		}
-	}
-	//VBO 存入 ATTRIBUTE
-	glGenBuffers(1, &vboStemNorVertex);
-	glBindBuffer(GL_ARRAY_BUFFER, vboStemNorVertex);
-	glBufferData(GL_ARRAY_BUFFER, norStemSize * sizeof(float), norStem, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(5);//存到第5個位置
-	glVertexAttribPointer(5/*存到第5個位置*/, 3, GL_FLOAT, GL_FALSE, 0, 0); // stride 0 for tightly packed
-	glBindBuffer(GL_ARRAY_BUFFER, 1);
-
+	
 
 }
 
@@ -498,9 +452,9 @@ void display(void)
 
 	if (shadingType == true)
 	{
-		// texture index為3
 		// 對應光線，眼睛，ambient，specular，shininess
 		// phong shading 模式
+		// texture index為3
 		glUniform3f(l1, light_pos[0], light_pos[1], light_pos[2]);
 		glUniform3f(v1, eyex, eyey, 3.0);
 		glUniform4f(k_a1, XiaoPingGuo->materials[3].ambient[0], XiaoPingGuo->materials[3].ambient[1], XiaoPingGuo->materials[3].ambient[2], XiaoPingGuo->materials[3].ambient[3]);
@@ -529,8 +483,6 @@ void display(void)
 
 	glUseProgram(0);
 	//---------------------------------------------------------------------------------------------------
-
-
 	glutSwapBuffers();
 	glDisable(GL_DEPTH_TEST);
 }
